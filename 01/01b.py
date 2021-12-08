@@ -1,17 +1,7 @@
-from pathlib import Path
-import sys
-import queue
+import pandas as pd
+df = pd.read_csv('01/input.txt', header=None, names=['value'])
 
+part1 = sum(df.value > df.value.shift()) 
+part2 = sum(df.value.rolling(3).sum() > df.value.rolling(3).sum().shift())
 
-q = queue.Queue()
-
-count = 0
-prev = 0
-for line in open(Path.cwd() / '01' / 'input.txt').readlines():
-  num = int(line.strip())
-  q.put(num)
-  prev += num
-  if q.qsize() > 3:
-    if prev - num < prev - q.get():
-      count += 1
-print(count)
+print(f'Part One: {part1}\nPart Two: {part2}')
